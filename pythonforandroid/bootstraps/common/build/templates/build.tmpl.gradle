@@ -3,9 +3,11 @@ buildscript {
     repositories {
        google()
        jcenter()
+       mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.1.2'
+        classpath 'com.google.gms:google-services:4.3.14'
     }
 }
 
@@ -13,6 +15,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
         {%- for repo in args.gradle_repositories %}
         {{repo}}
         {%- endfor %}
@@ -26,6 +29,7 @@ allprojects {
 apply plugin: 'com.android.library'
 {% else %}
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 {% endif %}
 
 android {
@@ -116,6 +120,7 @@ android {
 }
 
 dependencies {
+    implementation platform('com.google.firebase:firebase-bom:31.1.1')
     {%- for aar in aars %}
     implementation(name: '{{ aar }}', ext: 'aar')
     {%- endfor -%}
